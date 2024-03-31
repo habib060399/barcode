@@ -1,0 +1,47 @@
+{{>header}}
+<div class="desktop-2">
+    {{>sidebar}}
+    <div class="container-3">
+        {{>navbar}}
+
+        <div class="container-8-a">
+                    <div class="container-6-b">
+                        <div class="berhasil-memberikan-respon">
+                            Berhasil memberikan respon
+                        </div>
+                        <div class="x">x</div>
+                    </div>
+
+                        <div class="data-permohonan">Data Permohonan</div>
+                        <div class="container-9">
+                            <span class="search"> Search : </span>
+                            <div class="line-16"></div>
+                        </div>
+                        <table class="tabel" border="2">
+                            <tr>
+                                <th>Nama Dokumen</th>
+                                <th>Nomor Dokumen</th>
+                                <th>Nomor Dokumen</th>
+                            </tr>
+                            {{#data}}
+                            <tr>
+                                <td>{{nama_dokumen}}</td>
+                                <td>{{nomor_dokumen}}</td>
+                                <td>
+                                    <a href="http://localhost:8080/sign-pdf/create?no_doc={{nomor_dokumen}}">Sign In</a>
+                                </td>
+                            </tr>
+                            {{/data}}
+                        </table>
+                        <div class="line-24"></div>
+        </div>
+
+        <div class="container-20">
+          <span class="smkn-1-probolinggo-2023-all-right-reserved"
+          >SMKN 1 PROBOLINGGO © 2023 All Right Reserved</span
+          >
+        </div>
+    </div>
+</div>
+</body>
+</html>
