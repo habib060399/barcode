@@ -143,23 +143,49 @@ public class RouteController {
     }
 
     @GetMapping(path = "/read-qrcode")
-    public ModelAndView readQRCode() {
+    public ModelAndView readQRCode(HttpSession session) {
+        String status = "";
+        if ( (String) session.getAttribute("message") != null){
+            status = (String) session.getAttribute("message");
+        }
         return new ModelAndView("reader_qrcode", Map.of(
-                "urlPost", "http://localhost:8080/read-qrcode/read"
+                "urlPost", "http://localhost:8080/read-qrcode/read",
+                "message", status
+
         ));
     }
 
     @PostMapping(path="/read-qrcode/read", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ModelAndView reaByQRCode (
-            @RequestPart(name="file") MultipartFile file
-    )  {
+            @RequestPart(name="file") MultipartFile file,
+            HttpServletRequest request
+    ) throws IOException  {
         Map<EncodeHintType, ErrorCorrectionLevel> hintMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
         hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
         String fileName = file.getOriginalFilename();
-        BarcodeRead read = new BarcodeRead(fileName.replace(".pdf",""));
-//        read.test();
+        Path path = Path.of("src/main/resources/static/assets/tmp/" + file.getOriginalFilename());
+        file.transferTo(path);
+        BarcodeRead read = new  BarcodeRead(fileName.replace(".pdf",""));
+        System.out.println(read.resulDecodeQR);
+        List<Document> documents = documentRepository.nomor_dokumen(read.resulDecodeQR);
 
-        return new ModelAndView("redirect:/read-qrcode");
+        if (!documents.isEmpty()){
+            return new ModelAndView("document_verify", Map.of(
+                    "nama_document", documents.getFirst().getOriginal_name(),
+                    "no_document", documents.getFirst().getNomor_dokumen(),
+                    "status", "Document Terverifikasi"
+            ));
+        }else {
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "document tidak terverifikasi");
+            return new ModelAndView("redirect:/read-qrcode");
+        }
+
+    }
+
+    @GetMapping(path = "/read-qrcode/verify")
+    public ModelAndView verifyDocument() {
+        return new ModelAndView("document_verify");
     }
 
 }

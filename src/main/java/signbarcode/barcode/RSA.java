@@ -55,14 +55,19 @@ public class RSA {
     }
 
     public String decrypt(String encryptedMessage) throws Exception{
-        byte[] encryptedBytes = decode(encryptedMessage);
-        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-        cipher.init(Cipher.DECRYPT_MODE,privateKey);
-        byte[] decryptedMessage = cipher.doFinal(encryptedBytes);
-        return new String(decryptedMessage, "UTF8");
+        try {
+            byte[] encryptedBytes = decode(encryptedMessage);
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(Cipher.DECRYPT_MODE,privateKey);
+            byte[] decryptedMessage = cipher.doFinal(encryptedBytes);
+            return new String(decryptedMessage, "UTF8");
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    private byte[] decode(String data){
+    private byte[] decode(String data)throws IllegalArgumentException{
         return Base64.getDecoder().decode(data);
     }
 

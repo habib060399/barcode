@@ -30,7 +30,7 @@ public class GenerateQRCode {
                     );
 
             String jsonString = new JSONObject(qrCodeDataMap).toString();
-            BitMatrix matrix = new MultiFormatWriter().encode(signature, BarcodeFormat.QR_CODE, 670, 670);
+            BitMatrix matrix = new MultiFormatWriter().encode(jsonString, BarcodeFormat.QR_CODE, 1000, 1000);
             MatrixToImageWriter.writeToPath(matrix, "PNG", Paths.get(path));
         } catch (Exception e) {
             e.printStackTrace();

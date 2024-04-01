@@ -12,8 +12,8 @@ import java.util.Locale;
 
 public class PdfAddImage {
 
-    private static String pdfDir = "/Users/Abib/Downloads/barcode/barcode/src/main/resources/static/assets/upload/";
-    private static String signPdfDir = "/Users/Abib/Downloads/barcode/barcode/src/main/resources/static/assets/signpdf/";
+    private static String pdfDir = "/Users/Abib/Downloads/barcode/src/main/resources/static/assets/upload/";
+    private static String signPdfDir = "/Users/Abib/Downloads/barcode/src/main/resources/static/assets/signpdf/";
     private static String imageDir = "src/main/resources/static/assets/barcode/";
 
     public static void AddImageToPdf(String fileNamePdf, String fileNameQr) throws IOException {
@@ -21,12 +21,10 @@ public class PdfAddImage {
 
         Document document = new Document(pdfDir + fileNamePdf);
 
-//        int lowerLeftX = 350;
-        int lowerLeftX = 335;
-        int lowerLeftY = 160;
-//        int upperRightX = 400;
-        int upperRightX = 385;
-        int upperRightY = 110;
+        int lowerLeftX = 370;
+        int lowerLeftY = 170;
+        int upperRightX = 300;
+        int upperRightY = 100;
 
         Page page = document.getPages().get_Item(1);
 
@@ -47,7 +45,7 @@ public class PdfAddImage {
 
         page.getContents().add(new GRestore());
 
-        document.save(signPdfDir + fileNamePdf +".pdf");
+        document.save(signPdfDir+fileNamePdf);
 
         imageStream.close();
     }
