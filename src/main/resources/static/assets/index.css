@@ -546,3 +546,249 @@
 .tabel {
 width: -webkit-fill-available;
 }
+
+.detail-dokumen {
+  margin: 0 37px 15px 37px;
+  display: inline-block;
+  align-self: flex-start;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 32px;
+  color: #000000;
+}
+.container-33 {
+  margin: 0 37px 14px 37px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: flex-start;
+  width: 251.8px;
+  box-sizing: border-box;
+}
+.nama-dokumen-approved {
+  margin-right: 12px;
+  width: 171px;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.nomor-dokumen-approved {
+  margin-right: 19.2px;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.container-26-approved {
+  background: #ffffff;
+  position: relative;
+  margin-right: 19px;
+  display: flex;
+  flex-direction: column;
+  padding: 13px 0 52px 5px;
+  box-sizing: border-box;
+}
+.ijazah {
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.container-36-approved {
+  margin: 0 37px 13px 37px;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+  width: fit-content;
+  box-sizing: border-box;
+}
+.dn-120001073 {
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.container-81-approved {
+  margin: 0 37px 12px 37px;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+  width: fit-content;
+  box-sizing: border-box;
+}
+.waktu-pengajuan {
+  margin: 1px 12px 0 0;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.tanggal-pengajuan {
+  margin-bottom: 1px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.container-10-approved {
+  background: #ffffff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 15px;
+  width: 375px;
+  box-sizing: border-box;
+}
+.container-8-approved {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  background: url("https://fn12.com/api/clusters/cluster-fn12-prod-asia-southeast1/projects/SSSc6Ak1ZvSf6aBiFfvfq2/assets/images/088a5f47cdf500d7868f11e9283959a15877d5ef?Expires=1711189067&KeyName=fn12-cdn&Signature=1A3_OSGD4mzRRrbpnH-8nkYb3aU=")
+    50% / cover no-repeat;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px 14px 0 14px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+.container-4-approved {
+  margin: 0 37px 7px 37px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: flex-start;
+  width: 322.2px;
+  box-sizing: border-box;
+}
+.upload-terakhir {
+  margin-right: 12px;
+  width: 171px;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.status {
+  margin: 5px 12px 0 0;
+  display: inline-block;
+  width: 169px;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.container-35-approved {
+  margin: 0 39px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: flex-start;
+  width: 294.9px;
+  box-sizing: border-box;
+}
+.pengajuan {
+  margin-bottom: 5px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #1243f2;
+}
+.container-18-approved {
+  background: #ed1a1a;
+  position: relative;
+  margin-bottom: 27px;
+  padding: 8px 28.2px 13px 28.2px;
+  width: fit-content;
+  box-sizing: border-box;
+}
+.persetujuan {
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #ffffff;
+}
+.container-31-approved {
+  margin: 0 28px 15px 28px;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+  width: fit-content;
+  box-sizing: border-box;
+}
+.ellipse-12 {
+  margin: 1px 16px 2px 0;
+  width: 26px;
+  height: 21px;
+}
+.setuju {
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.container-30-approved {
+  margin: 0 28px 32px 28px;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+  width: fit-content;
+  box-sizing: border-box;
+}
+.ellipse-13 {
+  margin: 1px 16px 2px 0;
+  width: 26px;
+  height: 21px;
+}
+.tidak-setuju {
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.masukkan-keterangan {
+  position: relative;
+  margin: 0 28px 71px 28px;
+  display: inline-block;
+  align-self: flex-start;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.37);
+}
+.container-9-approved {
+  background: #d9d9d9;
+  position: relative;
+  margin: 0 32px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-self: flex-end;
+  padding: 4px 11.5px 3px 15px;
+  box-sizing: border-box;
+}
+.simpan {
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}

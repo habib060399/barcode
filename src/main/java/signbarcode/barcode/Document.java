@@ -21,4 +21,8 @@ public class Document {
         private String original_name;
         private String nama_dokumen;
         private String nomor_dokumen;
+        private String status;
+        private String created_at;
+        private String updated_at;
+        private String ket;
 }

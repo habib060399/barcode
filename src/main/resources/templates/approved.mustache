@@ -1,0 +1,64 @@
+{{>header}}
+<div class="desktop-2">
+    {{>sidebar}}
+    <div class="container-3">
+        {{>navbar}}
+
+        <div class="container-8-approved">
+            <div class="container-26-approved">
+                <div class="detail-dokumen">Detail Dokumen</div>
+                <div class="line-8"></div>
+                <div class="container-33">
+                    <span class="nama-dokumen-approved"> Nama Dokumen </span>
+                    <span class="ijazah"> : {{nama_document}} </span>
+                </div>
+                <div class="container-36-approved">
+                    <span class="nomor-dokumen-approved"> Nomor Dokumen </span>
+                    <span class="dn-120001073"> : {{nomor_document}} </span>
+                </div>
+                <div class="container-81-approved">
+                    <div class="waktu-pengajuan">Waktu Pengajuan</div>
+                    <div class="tanggal-pengajuan">: {{created_at}}</div>
+                </div>
+                <div class="container-4-approved">
+                    <span class="upload-terakhir"> Upload terakhir </span>
+                    <span class="25-juni-20232"> : {{updated_at}} </span>
+                </div>
+                <div class="container-35-approved">
+                    <div class="status">Status</div>
+                    <div class="pengajuan">: Pengajuan</div>
+                </div>
+            </div>
+
+            <div class="container-10-approved">
+                <div class="container-18-approved">
+                    <span class="persetujuan"> Persetujuan </span>
+                </div>
+                <form action="{{url_post}}" method="post">
+                <div class="container-31-approved">
+                    <input type="text" value="{{id}}" name="id" hidden>
+                    <input type="radio" class="ellipse-12" name="approved" value="setuju">
+                    <span class="setuju"> Setuju </span>
+                </div>
+                <div class="container-30-approved">
+                    <input type="radio" class="ellipse-13" name="approved" value="tidak setuju">
+                    <span class="tidak-setuju"> Tidak Setuju </span>
+                </div>
+                <div class="masukkan-keterangan"><textarea name="keterangan">Masukkan keterangan</textarea></div>
+                <div class="container-9-approved">
+                    <button type="submit" class="simpan"> Simpan </button>
+                </div>
+                </form>
+                <div class="rectangle-39"></div>
+            </div>
+        </div>
+
+        <div class="container-20">
+          <span class="smkn-1-probolinggo-2023-all-right-reserved"
+          >SMKN 1 PROBOLINGGO © 2023 All Right Reserved</span
+          >
+        </div>
+    </div>
+</div>
+</body>
+</html>

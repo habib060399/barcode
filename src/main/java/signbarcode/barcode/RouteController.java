@@ -5,23 +5,19 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.apache.tomcat.util.file.ConfigurationSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
-import java.io.FileInputStream;
+import javax.print.Doc;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class RouteController {
@@ -30,6 +26,12 @@ public class RouteController {
     private DocumentRepository documentRepository;
     @Autowired(required = false)
     private QrCodeRepository qrCodeRepository;
+    @Autowired
+    private Environment environment;
+    private String url;
+    public String Url() {
+        return this.url = environment.getProperty("application.url");
+    }
 
     @RequestMapping(path = "/hello")
     public void helloWorld(HttpServletResponse response) throws IOException {
@@ -56,7 +58,7 @@ public class RouteController {
         if ( (String) session.getAttribute("status") != null){
             status = (String) session.getAttribute("status");
         }
-        System.out.println(status);
+
         return new ModelAndView("cetak_QRCode", Map.of(
                 "urlPostCetakQR", "http://localhost:8080/cetak-QrCode/create",
                 "status", status
@@ -82,7 +84,7 @@ public class RouteController {
 
         HttpSession session = request.getSession();
         session.setAttribute("status", "QR Code Berhasil Ditambahkan");
-        System.out.print(nama_doc);
+
         return new ModelAndView("redirect:/cetak-QrCode");
     }
 
@@ -109,16 +111,35 @@ public class RouteController {
             ) throws IOException{
 
         HttpSession session = request.getSession();
-        session.setAttribute("status", "Data Berhasil ditambahkan");
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss");
 
-        Path path = Path.of("src/main/resources/static/assets/upload/" + file.getOriginalFilename());
-        file.transferTo(path);
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
 
-        Document document = new Document();
-        document.setNama_dokumen(nama_dokumen);
-        document.setNomor_dokumen(nomor_dokumen);
-        document.setOriginal_name(file.getOriginalFilename());
-        documentRepository.save(document);
+        if (file.getSize() > 2000000 ) {
+            System.out.println("file melebihi dari 2 MB");
+            session.setAttribute("status", "file size melebihi 2MB");
+        } else if (!Objects.equals(file.getContentType(), "application/pdf")) {
+            System.out.println("file yang diupload tidak mendukung");
+            session.setAttribute("status", "file yang diupload tidak didukung");
+        } else {
+            Path path = Path.of("src/main/resources/static/assets/upload/" + file.getOriginalFilename());
+            file.transferTo(path);
+
+            session.setAttribute("status", "Data Berhasil ditambahkan");
+
+            Document document = new Document();
+            document.setNama_dokumen(nama_dokumen);
+            document.setNomor_dokumen(nomor_dokumen);
+            document.setOriginal_name(file.getOriginalFilename());
+            document.setCreated_at(sdf.format(dt));
+            document.setUpdated_at(sdf.format(dt));
+            document.setStatus("pengajuan");
+            document.setKet("-");
+            documentRepository.save(document);
+
+            return new ModelAndView("redirect:/form-entry");
+        }
 
         return new ModelAndView("redirect:/form-entry");
     }
@@ -186,6 +207,152 @@ public class RouteController {
     @GetMapping(path = "/read-qrcode/verify")
     public ModelAndView verifyDocument() {
         return new ModelAndView("document_verify");
+    }
+
+    @GetMapping(path = "/form-revisi")
+    public ModelAndView formRevisi() {
+        var getDocument = documentRepository.findAllByStatusLike("revisi");
+
+        return new ModelAndView("form_revisi", Map.of(
+                "data", getDocument,
+                "url", Url() + "form-revisi"
+        ));
+    }
+
+    @GetMapping(path = "/form-revisi/{id}")
+    public ModelAndView formRevisiEdit(@PathVariable int id) {
+        Optional<Document> documentById = documentRepository.findById(id);
+
+        return new ModelAndView("form_revisi_edit", Map.of(
+                "nama_dokumen", documentById.get().getNama_dokumen(),
+                "nomor_dokumen", documentById.get().getNomor_dokumen(),
+                "id", documentById.get().getId(),
+                "url", Url() + "form-revisi/edit"
+
+        ));
+    }
+
+    @PostMapping(path = "/form-revisi/edit")
+    public ModelAndView revisiEdit(
+            @RequestParam(name = "id") String id,
+            @RequestParam(name = "nama_dokumen") String nama_dokumen,
+            @RequestParam(name = "nomor_dokumen") String nomor_dokumen,
+            @RequestPart(name = "file") MultipartFile file,
+            HttpServletRequest request
+    )throws IOException{
+        HttpSession session = request.getSession();
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy HH:mm:ss");
+
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
+
+        if (file.getSize() > 2000000 ) {
+            System.out.println("file melebihi dari 2 MB");
+            session.setAttribute("status", "file size melebihi 2MB");
+        } else if (file.isEmpty()) {
+
+            session.setAttribute("status", "Data Berhasil ditambahkan");
+
+            Document document = documentRepository.findById(Integer.parseInt(id)).orElse(null);
+            document.setNama_dokumen(nama_dokumen);
+            document.setNomor_dokumen(nomor_dokumen);
+            document.setUpdated_at(sdf.format(dt));
+            document.setStatus("pengajuan");
+            documentRepository.save(document);
+
+            return new ModelAndView("redirect:/form-revisi");
+        }else {
+            if (!Objects.equals(file.getContentType(), "application/pdf")){
+                System.out.println("file yang diupload tidak mendukung");
+                session.setAttribute("status", "file yang diupload tidak didukung");
+            }
+            Path path = Path.of("src/main/resources/static/assets/upload/" + file.getOriginalFilename());
+            file.transferTo(path);
+
+            session.setAttribute("status", "Data Berhasil ditambahkan");
+
+            Document document = documentRepository.findById(Integer.parseInt(id)).orElse(null);
+            document.setNama_dokumen(nama_dokumen);
+            document.setNomor_dokumen(nomor_dokumen);
+            document.setUpdated_at(sdf.format(dt));
+            document.setStatus("pengajuan");
+            document.setOriginal_name(file.getOriginalFilename());
+            documentRepository.save(document);
+
+            return new ModelAndView("redirect:/form-revisi");
+        }
+
+        return new ModelAndView("redirect:/form-revisi");
+    }
+
+    @GetMapping(path = "/document-signing")
+    public ModelAndView documentSigning() {
+        return new ModelAndView("document_signing");
+    }
+
+    @GetMapping(path = "/cek-document")
+    public ModelAndView cekDocument(){
+        var documents = documentRepository.findAll();
+        return new ModelAndView("check_document", Map.of(
+                "data", documents
+        ));
+    }
+
+    @GetMapping(path = "/revisi-deocument")
+    public ModelAndView revisiDocument(){
+        List<Document> documents = documentRepository.findAllByStatusLike("revisi");
+        return new ModelAndView("revisi_document", Map.of(
+                "data", documents
+        ));
+    }
+
+    @GetMapping(path = "/approved")
+    public ModelAndView cekApprovedDocument(HttpServletRequest request){
+        String url = environment.getProperty("application.url");
+        var getAll = documentRepository.findByStatusOrStatus("revisi", "pengajuan");
+//        System.out.println(getAll.get(1).getCreated_at());
+
+        return new ModelAndView("approved_document", Map.of(
+                "url", url + "approved-document",
+                "data", getAll
+        ));
+    }
+
+    @GetMapping(path = "/approved-document/{id}")
+    public ModelAndView approvedDocument(@PathVariable int id) {
+
+        Optional<Document> documentById = documentRepository.findById(id);
+
+        return new ModelAndView("approved", Map.of(
+                "id", documentById.get().getId(),
+                "nama_document", documentById.get().getNama_dokumen(),
+                "nomor_document", documentById.get().getNomor_dokumen(),
+                "created_at", documentById.get().getCreated_at(),
+                "updated_at", documentById.get().getUpdated_at(),
+                "url_post", this.url+"approved-document/approve"
+        ));
+    }
+
+    @PostMapping(path = "/approved-document/approve")
+    public ModelAndView approvedDocumentPost(
+            @RequestParam(name = "id") String id,
+            @RequestParam(name = "approved") String approved,
+            @RequestParam(name = "keterangan") String keterangan
+    ){
+        System.out.println(approved);
+        String status = "";
+        if (approved.equals("setuju")){
+            status = "approve";
+        } else {
+            status = "revisi";
+        }
+
+        Document document = documentRepository.findById(Integer.parseInt(id)).orElse(null);
+        document.setStatus(status);
+        document.setKet(keterangan);
+        documentRepository.save(document);
+
+        return new ModelAndView("redirect:/approved");
     }
 
 }
