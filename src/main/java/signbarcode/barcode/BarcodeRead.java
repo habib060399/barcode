@@ -24,7 +24,7 @@ public class BarcodeRead {
         rsa.initFromStrings();
         try {
             com.aspose.pdf.LocaleOptions.setLocale(new Locale("en", "US"));
-            Document pdfDocument = new Document("/Users/Abib/Downloads/barcode/src/main/resources/static/assets/tmp/"+fileName+".pdf");
+            Document pdfDocument = new Document("src/main/resources/static/assets/tmp/"+fileName+".pdf");
 
             java.io.OutputStream imageStream = new java.io.FileOutputStream("src/main/resources/static/assets/tmp/"+fileName+".bmp");
 

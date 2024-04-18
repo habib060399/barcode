@@ -505,7 +505,8 @@
   box-sizing: border-box;
 }
 .container-6-b {
-  background: rgba(38, 235, 34, 0.6);
+  /*background: rgba(38, 235, 34, 0.6);*/
+  background: white;
   position: relative;
   margin: 0 8px 138px 2px;
   display: flex;

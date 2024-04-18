@@ -6,15 +6,17 @@
 
         <div class="container-8-a">
                     <div class="container-6-b">
+                        {{#status}}
                         <div class="berhasil-memberikan-respon">
-                            Berhasil memberikan respon
+                            {{status}}
                         </div>
                         <div class="x">x</div>
+                        {{/status}}
                     </div>
 
-                        <div class="data-permohonan">Data Permohonan</div>
+                        <div class="data-permohonan">Signing Input</div>
                         <div class="container-9">
-                            <span class="search"> Search : </span>
+<!--                            <span class="search"> Search : </span>-->
                             <div class="line-16"></div>
                         </div>
                         <table class="tabel" border="2">
@@ -29,6 +31,7 @@
                                 <td>{{nomor_dokumen}}</td>
                                 <td>
                                     <a href="http://localhost:8080/sign-pdf/create?no_doc={{nomor_dokumen}}">Sign In</a>
+                                    <a href="{{urlDownload}}{{original_name}}" download>download</a>
                                 </td>
                             </tr>
                             {{/data}}

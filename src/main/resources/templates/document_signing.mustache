@@ -6,15 +6,15 @@
 
         <div class="container-8-a">
             <div class="container-6-b">
-                <div class="berhasil-memberikan-respon">
-                    Berhasil memberikan respon
-                </div>
-                <div class="x">x</div>
+<!--                <div class="berhasil-memberikan-respon">-->
+<!--                    Berhasil memberikan respon-->
+<!--                </div>-->
+<!--                <div class="x">x</div>-->
             </div>
 
-            <div class="data-permohonan">Data Permohonan</div>
+            <div class="data-permohonan">Document</div>
             <div class="container-9">
-                <span class="search"> Search : </span>
+<!--                <span class="search"> Search : </span>-->
                 <div class="line-16"></div>
             </div>
             <table class="tabel" border="2">
@@ -23,15 +23,17 @@
                     <th>Nomor Dokumen</th>
                     <th>Nomor Dokumen</th>
                 </tr>
-
+                {{#data}}
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>{{nama_dokumen}}</td>
+                        <td>{{nomor_dokumen}}</td>
                         <td>
-                            <a href="http://localhost:8080/sign-pdf/create?no_doc=">Sign In</a>
+                            <a href="{{urlDownload}}{{original_name}}">Download</a>
+                            <a href="{{download}}{{original_name}}" target="_blank" >Preview</a>
+                            <a href="{{url}}{{id}}" >Upload</a>
                         </td>
                     </tr>
-
+                {{/data}}
             </table>
             <div class="line-24"></div>
         </div>

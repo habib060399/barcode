@@ -12,8 +12,8 @@ import java.util.Locale;
 
 public class PdfAddImage {
 
-    private static String pdfDir = "/Users/Abib/Downloads/barcode/src/main/resources/static/assets/upload/";
-    private static String signPdfDir = "/Users/Abib/Downloads/barcode/src/main/resources/static/assets/signpdf/";
+    private static String pdfDir = "src/main/resources/static/assets/signing/";
+    private static String signPdfDir = "src/main/resources/static/assets/signpdf/";
     private static String imageDir = "src/main/resources/static/assets/barcode/";
 
     public static void AddImageToPdf(String fileNamePdf, String fileNameQr) throws IOException {
