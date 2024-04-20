@@ -21,12 +21,14 @@
                 <tr>
                     <th>Nama Dokumen</th>
                     <th>Nomor Dokumen</th>
-                    <th>Nomor Dokumen</th>
+                    <th>status</th>
+                    <th width="200px">Aksi</th>
                 </tr>
                 {{#data}}
                     <tr>
                         <td>{{nama_dokumen}}</td>
                         <td>{{nomor_dokumen}}</td>
+                        <td>{{status}}</td>
                         <td>
                             <a href="{{urlDownload}}{{original_name}}">Download</a>
                             <a href="{{download}}{{original_name}}" target="_blank" >Preview</a>

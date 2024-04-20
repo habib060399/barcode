@@ -339,7 +339,7 @@ public class RouteController {
         return new ModelAndView("document_signing", Map.of(
                 sessionUser(), true,
                 "data", getDocument,
-                "download", Url() + "assets/upload/",
+                "download", Url() + "assets/signpdf/",
                 "urlDownload", Url() + "download-document-sign/",
                 "url", Url() + "document-signing/"
         ));
