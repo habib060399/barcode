@@ -22,9 +22,11 @@
     <div class="container-26">
         <div class="home">Home</div>
         <div class="line-14"></div>
-        <a href="http://localhost:8080/read-qrcode" class="document-verify">Document Verify</a>
+        <a href="http://localhost:8080/" class="document-verify">Document Verify</a>
     </div>
     <div class="container-8">
-        <a href="http://localhost:8080/login" class="login">Login</a>
+        {{#login}}
+        <a href="{{url}}" class="login">{{name}}</a>
+        {{/login}}
     </div>
 </div>

@@ -1,27 +1,18 @@
 package signbarcode.barcode;
 
-import com.aspose.pdf.operators.Do;
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
+
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.samskivert.mustache.MustacheException;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.view.MustacheView;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.RouteMatcher;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,38 +32,91 @@ public class RouteController {
     @Autowired(required = false)
     private QrCodeRepository qrCodeRepository;
     @Autowired
+    private UsersRepository usersRepository;
+
+    @Autowired
     private Environment environment;
     private String url;
     public String Url() {
         return this.url = environment.getProperty("application.url");
     }
     HttpSession session;
+    @Autowired
+    public HttpServletRequest request;
 
 
-    @RequestMapping(path = "/hello")
-    public void helloWorld(HttpServletResponse response) throws IOException {
-        response.getWriter().println("Hello World");
+    public ModelAndView RouteController(){
+        if(sessionUser().isEmpty()){
+            return new ModelAndView("reader_qrcode");
+        }
+        return new ModelAndView("index");
+    }
+
+    public HashMap<String, String> isLoggin(){
+        HttpSession session = request.getSession();
+        String role = (String) session.getAttribute("role");
+        HashMap<String, String> map = new HashMap<>();
+
+        if (sessionUser() == null){
+            map.put("name", "login");
+            map.put("url", "http://localhost:8080/login");
+        } else {
+            map.put("name", "logout");
+            map.put("url", "http://localhost:8080/logout");
+        }
+
+        return map;
     }
 
     public String sessionUser() {
-//        var user = session.getAttribute("user");
-        var user = "user";
-        return (String) user;
+        HttpSession session = request.getSession();
+        String role = (String) session.getAttribute("role");
+
+        return role;
     }
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "/home")
     public ModelAndView index() {
+        System.out.println(sessionUser());
         return new ModelAndView("index", Map.of(
                 "name", "Habib Shibghatallah",
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
         ));
     }
 
     @GetMapping(path = "/login")
     public ModelAndView login() {
         return new ModelAndView("login", Map.of(
-                "urlPostCetakQR", "Habib Shibghatallah"
+                "urlPostCetakQR", "Habib Shibghatallah",
+                "url", Url() + "login/auth",
+                "login", isLoggin()
         ));
+    }
+
+    @PostMapping(path = "/login/auth")
+    public ModelAndView authentication(
+            @RequestParam(name = "nip") String nip,
+            @RequestParam(name = "password") String password,
+            HttpServletRequest request
+    ) {
+        Optional<UsersModel> user = usersRepository.findByNipLike(nip);
+        HttpSession session = request.getSession();
+
+        if (nip.equals(user.get().getNip()) && password.equals(user.get().getPassword())){
+            session.setAttribute("role", user.get().getRole());
+            return new ModelAndView("redirect:/home");
+        }
+
+        return new ModelAndView("redirect:/login");
+    }
+
+    @GetMapping("/logout")
+    public ModelAndView logout(){
+        HttpSession session = request.getSession();
+        session.invalidate();
+
+        return new ModelAndView("redirect:/login");
     }
 
     @GetMapping(path="/cetak-QrCode")
@@ -85,7 +129,8 @@ public class RouteController {
         return new ModelAndView("cetak_QRCode", Map.of(
                 "urlPostCetakQR", "http://localhost:8080/cetak-QrCode/create",
                 "status", status,
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
         ));
     }
 
@@ -119,10 +164,12 @@ public class RouteController {
         if ( (String) session.getAttribute("status") != null){
             status = (String) session.getAttribute("status");
         }
-        session.invalidate();
+//        session.getAttribute("role");
+//        session.invalidate();
         return new ModelAndView("form_entry", Map.of(
                 "status", status,
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
         ));
     }
 
@@ -183,7 +230,8 @@ public class RouteController {
                 "data", getAll,
                 "urlDownload", Url() + "download-document-sign-input/",
                 "status", status,
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
         ));
     }
 
@@ -204,16 +252,18 @@ public class RouteController {
         return new ModelAndView("redirect:/sign-pdf");
     }
 
-    @GetMapping(path = "/read-qrcode")
+    @GetMapping(path = "/")
     public ModelAndView readQRCode(HttpSession session) {
         String status = "";
         if ( (String) session.getAttribute("message") != null){
             status = (String) session.getAttribute("message");
         }
+
         return new ModelAndView("reader_qrcode", Map.of(
                 "urlPost", "http://localhost:8080/read-qrcode/read",
                 "message", status,
-                sessionUser(), true
+                "login", isLoggin()
+//                sessionUser(), true
 
         ));
     }
@@ -250,7 +300,9 @@ public class RouteController {
 
     @GetMapping(path = "/read-qrcode/verify")
     public ModelAndView verifyDocument() {
-        return new ModelAndView("document_verify");
+        return new ModelAndView("document_verify", Map.of(
+                "login", isLoggin()
+        ));
     }
 
     @GetMapping(path = "/form-revisi")
@@ -260,7 +312,8 @@ public class RouteController {
         return new ModelAndView("form_revisi", Map.of(
                 "data", getDocument,
                 "url", Url() + "form-revisi",
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
 
         ));
     }

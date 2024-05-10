@@ -1,21 +1,22 @@
 {{>header}}
 <div class="desktop-2">
-{{>sidebar}}
     <div class="container-3">
        {{>navbar}}
 
         <div class="container-21">
+            <form action="{{url}}" method="post">
             <div class="container-26-a">
                 <div class="login-2">LOGIN</div>
                 <div class="nip">NIP</div>
-                <input class="rectangle-34" type="text" />
+                <input class="rectangle-34" type="text" name="nip"/>
 
                 <div class="password">Password</div>
-                <input class="rectangle-34" type="text" name="" id="" />
+                <input class="rectangle-34" type="password" name="password" id="" />
                 <div class="container-25">
-                    <span class="login-3"> Login </span>
+                    <button type="submit" class="login-3"> Login </button>
                 </div>
             </div>
+            </form>
             <img class="ellipse-11" />
         </div>
 
