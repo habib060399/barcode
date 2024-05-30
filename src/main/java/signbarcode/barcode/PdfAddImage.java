@@ -19,35 +19,40 @@ public class PdfAddImage {
     public static void AddImageToPdf(String fileNamePdf, String fileNameQr) throws IOException {
         com.aspose.pdf.LocaleOptions.setLocale(new Locale("en", "US"));
 
-        Document document = new Document(pdfDir + fileNamePdf);
 
-        int lowerLeftX = 370;
-        int lowerLeftY = 170;
-        int upperRightX = 300;
-        int upperRightY = 100;
+        try {
+            Document document = new Document(pdfDir + fileNamePdf);
+            int lowerLeftX = 370;
+            int lowerLeftY = 170;
+            int upperRightX = 300;
+            int upperRightY = 100;
 
-        Page page = document.getPages().get_Item(1);
+            Page page = document.getPages().get_Item(1);
 
-        java.io.FileInputStream imageStream = new java.io.FileInputStream(new java.io.File(imageDir + fileNameQr +".png"));
+            java.io.FileInputStream imageStream = new java.io.FileInputStream(new java.io.File(imageDir + fileNameQr +".png"));
 
-        page.getResources().getImages().add(imageStream);
+            page.getResources().getImages().add(imageStream);
 
-        page.getContents().add(new GSave());
+            page.getContents().add(new GSave());
 
-        Rectangle rectangle = new Rectangle(lowerLeftX, lowerLeftY, upperRightX, upperRightY);
-        Matrix matrix = new Matrix(new double[] {rectangle.getURX() - rectangle.getLLX(), 0, 0,
-        rectangle.getURY() - rectangle.getLLY(), rectangle.getLLX(), rectangle.getLLY()});
+            Rectangle rectangle = new Rectangle(lowerLeftX, lowerLeftY, upperRightX, upperRightY);
+            Matrix matrix = new Matrix(new double[] {rectangle.getURX() - rectangle.getLLX(), 0, 0,
+                    rectangle.getURY() - rectangle.getLLY(), rectangle.getLLX(), rectangle.getLLY()});
 
-        page.getContents().add(new ConcatenateMatrix(matrix));
-        XImage xImage = page.getResources().getImages().get_Item(page.getResources().getImages().size());
+            page.getContents().add(new ConcatenateMatrix(matrix));
+            XImage xImage = page.getResources().getImages().get_Item(page.getResources().getImages().size());
 
-        page.getContents().add(new Do(xImage.getName()));
+            page.getContents().add(new Do(xImage.getName()));
 
-        page.getContents().add(new GRestore());
+            page.getContents().add(new GRestore());
 
-        document.save(signPdfDir+fileNamePdf);
+            document.save(signPdfDir+fileNamePdf);
 
-        imageStream.close();
+            imageStream.close();
+        } catch (Exception e) {
+
+        }
+
     }
 
 }

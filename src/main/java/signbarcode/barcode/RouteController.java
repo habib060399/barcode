@@ -60,6 +60,9 @@ public class RouteController {
         if (sessionUser() == null){
             map.put("name", "login");
             map.put("url", "http://localhost:8080/login");
+        } else if (sessionUser() != null) {
+            map.put("name", "logout");
+            map.put("url", "http://localhost:8080/logout");
         } else {
             map.put("name", "logout");
             map.put("url", "http://localhost:8080/logout");
@@ -69,6 +72,7 @@ public class RouteController {
     }
 
     public String sessionUser() {
+
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("role");
 
@@ -237,8 +241,17 @@ public class RouteController {
 
     @GetMapping(path="/sign-pdf/create")
     public ModelAndView createSignPdf(@RequestParam(name = "no_doc") String no_doc, HttpServletRequest request) throws IOException {
+        com.aspose.pdf.LocaleOptions.setLocale(new Locale("en", "US"));
         List<Document> documents = documentRepository.nomor_dokumen(no_doc);
         List<QrCodeModel> qrCodeModels = qrCodeRepository.getFileName(no_doc);
+
+        try {
+            com.aspose.pdf.Document resourceDocument = new com.aspose.pdf.Document("src/main/resources/static/assets/signing/" + documents.getFirst().getOriginal_name());
+        }catch (Exception e){
+            System.out.println("file belum ditanda tangani oleh kepala sekolah");
+            HttpSession session = request.getSession();
+            session.setAttribute("error", "file belum ditanda tangani oleh kepala sekolah");
+        }
 
         if(qrCodeModels.isEmpty()){
             System.out.println("belum membuat qrcode");
@@ -288,7 +301,8 @@ public class RouteController {
                     "no_document", documents.getFirst().getNomor_dokumen(),
                     "created_at", documents.getFirst().getCreated_at(),
                     "status", "Document Terverifikasi",
-                    sessionUser(), true
+                    "login", isLoggin()
+//                    sessionUser(), true
             ));
         }else {
             HttpSession session = request.getSession();
@@ -406,7 +420,9 @@ public class RouteController {
                 "nama_document", documentById.get().getNama_dokumen(),
                 "nomor_document", documentById.get().getNomor_dokumen(),
                 "id", documentById.get().getId(),
-                "url", Url() + "document-signing/upload"
+                "url", Url() + "document-signing/upload",
+                sessionUser(), true,
+                "login", isLoggin()
         ));
     }
 
@@ -459,7 +475,8 @@ public class RouteController {
         return new ModelAndView("approved_document", Map.of(
                 "url", url + "approved-document",
                 "data", getAll,
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
         ));
     }
 
@@ -475,7 +492,8 @@ public class RouteController {
                 "created_at", documentById.get().getCreated_at(),
                 "updated_at", documentById.get().getUpdated_at(),
                 "url_post", Url()+"approved-document/approve",
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
         ));
     }
 
