@@ -259,6 +259,9 @@ public class RouteController {
             session.setAttribute("error", "belum membuat qrcode");
         }else {
             PdfAddImage.AddImageToPdf(documents.getFirst().getOriginal_name(), qrCodeModels.getFirst().getNama_qrcode());
+            System.out.println("berhasil signing dokumen");
+            HttpSession session = request.getSession();
+            session.setAttribute("error", "berhasil signing dokumen");
         }
 
         System.out.println(documents.getFirst().getOriginal_name());
@@ -408,7 +411,9 @@ public class RouteController {
                 "data", getDocument,
                 "download", Url() + "assets/signpdf/",
                 "urlDownload", Url() + "download-document-sign/",
-                "url", Url() + "document-signing/"
+                "url", Url() + "document-signing/",
+                "login", isLoggin()
+
         ));
     }
 
