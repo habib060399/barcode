@@ -168,8 +168,6 @@ public class RouteController {
         if ( (String) session.getAttribute("status") != null){
             status = (String) session.getAttribute("status");
         }
-//        session.getAttribute("role");
-//        session.invalidate();
         return new ModelAndView("form_entry", Map.of(
                 "status", status,
                 sessionUser(), true,
@@ -247,21 +245,20 @@ public class RouteController {
 
         try {
             com.aspose.pdf.Document resourceDocument = new com.aspose.pdf.Document("src/main/resources/static/assets/signing/" + documents.getFirst().getOriginal_name());
+            if(qrCodeModels.isEmpty()){
+                System.out.println("belum membuat qrcode");
+                HttpSession session = request.getSession();
+                session.setAttribute("error", "belum membuat qrcode");
+            }else {
+                PdfAddImage.AddImageToPdf(documents.getFirst().getOriginal_name(), qrCodeModels.getFirst().getNama_qrcode());
+                System.out.println("berhasil signing dokumen");
+                HttpSession session = request.getSession();
+                session.setAttribute("error", "berhasil signing dokumen");
+            }
         }catch (Exception e){
             System.out.println("file belum ditanda tangani oleh kepala sekolah");
             HttpSession session = request.getSession();
             session.setAttribute("error", "file belum ditanda tangani oleh kepala sekolah");
-        }
-
-        if(qrCodeModels.isEmpty()){
-            System.out.println("belum membuat qrcode");
-            HttpSession session = request.getSession();
-            session.setAttribute("error", "belum membuat qrcode");
-        }else {
-            PdfAddImage.AddImageToPdf(documents.getFirst().getOriginal_name(), qrCodeModels.getFirst().getNama_qrcode());
-            System.out.println("berhasil signing dokumen");
-            HttpSession session = request.getSession();
-            session.setAttribute("error", "berhasil signing dokumen");
         }
 
         System.out.println(documents.getFirst().getOriginal_name());
@@ -279,7 +276,6 @@ public class RouteController {
                 "urlPost", "http://localhost:8080/read-qrcode/read",
                 "message", status,
                 "login", isLoggin()
-//                sessionUser(), true
 
         ));
     }
@@ -305,12 +301,11 @@ public class RouteController {
                     "created_at", documents.getFirst().getCreated_at(),
                     "status", "Document Terverifikasi",
                     "login", isLoggin()
-//                    sessionUser(), true
             ));
         }else {
             HttpSession session = request.getSession();
             session.setAttribute("message", "document tidak terverifikasi");
-            return new ModelAndView("redirect:/read-qrcode");
+            return new ModelAndView("redirect:/");
         }
 
     }
@@ -344,7 +339,8 @@ public class RouteController {
                 "nomor_dokumen", documentById.get().getNomor_dokumen(),
                 "id", documentById.get().getId(),
                 "url", Url() + "form-revisi/edit",
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
 
 
         ));
@@ -537,8 +533,6 @@ public class RouteController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .contentLength(file.length())
                 .body(resource);
-
-
     }
 
     @GetMapping(path = "/download-document-sign-input/{filename}")
@@ -554,7 +548,5 @@ public class RouteController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .contentLength(file.length())
                 .body(resource);
-
-
     }
 }
