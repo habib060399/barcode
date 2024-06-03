@@ -8,6 +8,7 @@
 
 /* Sidebar */
 .container-22 {
+  height: 100vh;
   background: #ed1a1a;
   position: relative;
   display: flex;
@@ -16,8 +17,8 @@
   box-sizing: border-box;
 }
 
-.container-27 {
-  background: #ffffff;
+.container-27-a {
+  /*background: #ffffff;*/
   position: relative;
   margin-bottom: 44px;
   display: flex;
@@ -134,6 +135,7 @@
   width: 100%;
   /* width: 1020px; */
   box-sizing: border-box;
+  height: 100vh;
 }
 
 /* Top Bar */
@@ -270,6 +272,7 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background: url("images/sekolah.jpg")
     50% / cover no-repeat;
+  background-size: cover;
   /* background: url("assets/Union.png") 50% / cover no-repeat; */
   position: relative;
   text-align: center;
@@ -279,7 +282,7 @@
   /* padding: 297px 52.4px 297.9px 52.4px; */
   /* width: 1020px; */
   width: 100%;
-  height: 780px;
+  height: 100%;
   box-sizing: border-box;
 }
 .container-16 {
@@ -312,6 +315,16 @@
 .union-2 {
   width: 578.6px;
   height: 185.1px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(10%, -50%);
+}
+img.union-2.tulisan {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-20%, -50%);
 }
 .container-20 {
   background: #ed1a1a;
@@ -420,7 +433,7 @@
   color: #ffffff;
 }
 .input-dokumen {
-  margin: 0 260px 2px 0;
+  margin: 0 260px 0 0;
   display: inline-block;
   overflow-wrap: break-word;
   font-family: "Stylish";
@@ -430,6 +443,7 @@
 }
 .file-pdf-dengan-maks-ukuran-2-mb {
   /* margin: 0 57.6px 109px 0; */
+  margin-left: -11%;
   display: inline-block;
   overflow-wrap: break-word;
   font-family: "Stylish";
@@ -438,10 +452,12 @@
   color: #d9d9d9;
 }
 .container-9 {
-  display: flex;
+  /*display: flex;*/
+  margin-top: 30px;
+  margin-bottom: 20px;
   flex-direction: row;
   align-self: flex-end;
-  width: fit-content;
+  /*width: fit-content;*/
   box-sizing: border-box;
 }
 .close {
@@ -467,34 +483,41 @@
   box-sizing: border-box;
 }
 .simpan {
-  overflow-wrap: break-word;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  background: rgba(217, 217, 217, 0.67)
   font-family: "Stylish";
   font-weight: 400;
   font-size: 29px;
-  color: #000000;
+  padding: 5px 19.4px 4px 19.4px;
 }
 .login-3 {
-  overflow-wrap: break-word;
-  font-family: "Stylish";
-  font-weight: 400;
-  font-size: 29px;
-  color: #000000;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background: rgba(217, 217, 217, 0.67)
+    font-family: "Stylish";
+    font-weight: 400;
+    font-size: 29px;
+    padding: 5px 19.4px 4px 19.4px;
 }
 .container-25 {
-  background: rgba(217, 217, 217, 0.67);
+  /*background: rgba(217, 217, 217, 0.67);*/
   position: relative;
   margin-left: 17px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   padding: 2px 1px 2px 0;
-  width: 132px;
+  /*width: 132px;*/
   box-sizing: border-box;
 }
 .container-8-a {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background: url("https://fn12.com/api/clusters/cluster-fn12-prod-asia-southeast1/projects/SSSc6Ak1ZvSf6aBiFfvfq2/assets/images/088a5f47cdf500d7868f11e9283959a15877d5ef?Expires=1711189067&KeyName=fn12-cdn&Signature=1A3_OSGD4mzRRrbpnH-8nkYb3aU=")
+  background: url("images/sekolah.jpg")
     50% / cover no-repeat;
+  background-size: cover;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -792,4 +815,15 @@ width: -webkit-fill-available;
   font-weight: 700;
   font-size: 20px;
   color: #000000;
+}
+
+.container-11-a {
+  margin-left: 11%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
 }

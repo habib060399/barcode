@@ -1,6 +1,7 @@
 package signbarcode.barcode;
 
 
+import com.aspose.pdf.internal.imaging.internal.bouncycastle.math.raw.Mod;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,22 +46,28 @@ public class RouteController {
     public HttpServletRequest request;
 
 
-    public ModelAndView RouteController(){
-        if(sessionUser().isEmpty()){
-            return new ModelAndView("reader_qrcode");
+     RouteController(HttpSession session) throws Exception{
+        boolean role = session.equals("role");
+        if(role == false){
+            index();
         }
-        return new ModelAndView("index");
+        System.out.println(role);
+    }
+
+    public ModelAndView checkIsLoggin(){
+         return new ModelAndView("index");
     }
 
     public HashMap<String, String> isLoggin(){
         HttpSession session = request.getSession();
+//        boolean role = session.equals("role");
         String role = (String) session.getAttribute("role");
         HashMap<String, String> map = new HashMap<>();
 
-        if (sessionUser() == null){
+        if (role == null){
             map.put("name", "login");
             map.put("url", "http://localhost:8080/login");
-        } else if (sessionUser() != null) {
+        } else if (role != null) {
             map.put("name", "logout");
             map.put("url", "http://localhost:8080/logout");
         } else {
@@ -81,11 +88,11 @@ public class RouteController {
 
     @GetMapping(path = "/home")
     public ModelAndView index() {
-        System.out.println(sessionUser());
+//        System.out.println(sessionUser());
         return new ModelAndView("index", Map.of(
-                "name", "Habib Shibghatallah",
-                sessionUser(), true,
-                "login", isLoggin()
+                "name", "Habib Shibghatallah"
+//                sessionUser(), true,
+//                "login", isLoggin()
         ));
     }
 
@@ -167,6 +174,10 @@ public class RouteController {
         String status = "";
         if ( (String) session.getAttribute("status") != null){
             status = (String) session.getAttribute("status");
+        }
+        if(session.getAttribute("role") == null){
+            session.setAttribute("message", "Tidak dapat diakses harap login!");
+            return new ModelAndView("redirect:/");
         }
         return new ModelAndView("form_entry", Map.of(
                 "status", status,
@@ -271,9 +282,9 @@ public class RouteController {
         if ( (String) session.getAttribute("message") != null){
             status = (String) session.getAttribute("message");
         }
-
-        return new ModelAndView("reader_qrcode", Map.of(
-                "urlPost", "http://localhost:8080/read-qrcode/read",
+        session.removeAttribute("message");
+        return new ModelAndView("index", Map.of(
+//                "urlPost", "http://localhost:8080/read-qrcode/read",
                 "message", status,
                 "login", isLoggin()
 
@@ -308,6 +319,20 @@ public class RouteController {
             return new ModelAndView("redirect:/");
         }
 
+    }
+
+    @GetMapping(path = "/check")
+    public ModelAndView formVerifyDocument(HttpSession session){
+        String status = "";
+        if ( (String) session.getAttribute("message") != null){
+            status = (String) session.getAttribute("message");
+        }
+
+        return new ModelAndView("reader_qrcode", Map.of(
+                "urlPost", "http://localhost:8080/read-qrcode/read",
+                "message", status,
+                "login", isLoggin()
+        ));
     }
 
     @GetMapping(path = "/read-qrcode/verify")
@@ -452,7 +477,8 @@ public class RouteController {
         var documents = documentRepository.findAll();
         return new ModelAndView("check_document", Map.of(
                 "data", documents,
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
 
         ));
     }
@@ -462,7 +488,8 @@ public class RouteController {
         List<Document> documents = documentRepository.findAllByStatusLike("revisi");
         return new ModelAndView("revisi_document", Map.of(
                 "data", documents,
-                sessionUser(), true
+                sessionUser(), true,
+                "login", isLoggin()
 
         ));
     }
