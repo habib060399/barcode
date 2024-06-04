@@ -45,17 +45,17 @@ public class RouteController {
     @Autowired
     public HttpServletRequest request;
 
+    @Autowired
+     public RouteController(HttpSession session) {
 
-     RouteController(HttpSession session) throws Exception{
-        boolean role = session.equals("role");
-        if(role == false){
-            index();
-        }
-        System.out.println(role);
     }
 
-    public ModelAndView checkIsLoggin(){
-         return new ModelAndView("index");
+    public ModelAndView checkIsLoggin(HttpSession session){
+        if(session.getAttribute("role") == null){
+            session.setAttribute("message", "Tidak dapat diakses harap login!");
+            return new ModelAndView("redirect:/");
+         } 
+        return new ModelAndView("redirect:/");
     }
 
     public HashMap<String, String> isLoggin(){
@@ -90,9 +90,9 @@ public class RouteController {
     public ModelAndView index() {
 //        System.out.println(sessionUser());
         return new ModelAndView("index", Map.of(
-                "name", "Habib Shibghatallah"
+                "name", "Habib Shibghatallah",
 //                sessionUser(), true,
-//                "login", isLoggin()
+                "login", isLoggin()
         ));
     }
 
@@ -137,6 +137,13 @@ public class RouteController {
             status = (String) session.getAttribute("status");
         }
 
+        if(session.getAttribute("role") == null){
+            session.setAttribute("message", "Tidak dapat diakses harap login!");
+            return new ModelAndView("redirect:/");
+        } else if (!session.getAttribute("role").equals("stTu")) {
+            return new ModelAndView("redirect:/forbidden");
+        }
+
         return new ModelAndView("cetak_QRCode", Map.of(
                 "urlPostCetakQR", "http://localhost:8080/cetak-QrCode/create",
                 "status", status,
@@ -178,6 +185,8 @@ public class RouteController {
         if(session.getAttribute("role") == null){
             session.setAttribute("message", "Tidak dapat diakses harap login!");
             return new ModelAndView("redirect:/");
+        } else if (!session.getAttribute("role").equals("kpBidang")) {
+            return new ModelAndView("redirect:/forbidden");
         }
         return new ModelAndView("form_entry", Map.of(
                 "status", status,
@@ -236,6 +245,14 @@ public class RouteController {
         if ( (String) session.getAttribute("error") != null){
             status = (String) session.getAttribute("error");
         }
+
+        if(session.getAttribute("role") == null){
+            session.setAttribute("message", "Tidak dapat diakses harap login!");
+            return new ModelAndView("redirect:/");
+        } else if (!session.getAttribute("role").equals("stTu")) {
+            return new ModelAndView("redirect:/forbidden");
+        }
+
         session.removeAttribute("error");
 
         var getAll = documentRepository.findAll();
@@ -287,6 +304,7 @@ public class RouteController {
 //                "urlPost", "http://localhost:8080/read-qrcode/read",
                 "message", status,
                 "login", isLoggin()
+
 
         ));
     }
@@ -343,13 +361,20 @@ public class RouteController {
     }
 
     @GetMapping(path = "/form-revisi")
-    public ModelAndView formRevisi() {
+    public ModelAndView formRevisi(HttpSession session) {
         var getDocument = documentRepository.findAllByStatusLike("revisi");
+
+        if(session.getAttribute("role") == null){
+            session.setAttribute("message", "Tidak dapat diakses harap login!");
+            return new ModelAndView("redirect:/");
+        } else if (!session.getAttribute("role").equals("kpBidang")) {
+            return new ModelAndView("redirect:/forbidden");
+        }
 
         return new ModelAndView("form_revisi", Map.of(
                 "data", getDocument,
                 "url", Url() + "form-revisi",
-                sessionUser(), true,
+//                sessionUser(), true,
                 "login", isLoggin()
 
         ));
@@ -425,8 +450,16 @@ public class RouteController {
     }
 
     @GetMapping(path = "/document-signing")
-    public ModelAndView documentSigning() {
+    public ModelAndView documentSigning(HttpSession session) {
         List<Document> getDocument = documentRepository.findAllByStatusLike("approve");
+
+        if(session.getAttribute("role") == null){
+            session.setAttribute("message", "Tidak dapat diakses harap login!");
+            return new ModelAndView("redirect:/");
+        } else if (!session.getAttribute("role").equals("kpSekolah")) {
+            return new ModelAndView("redirect:/forbidden");
+        }
+
         return new ModelAndView("document_signing", Map.of(
                 sessionUser(), true,
                 "data", getDocument,
@@ -473,8 +506,16 @@ public class RouteController {
     }
 
     @GetMapping(path = "/cek-document")
-    public ModelAndView cekDocument(){
+    public ModelAndView cekDocument(HttpSession session){
         var documents = documentRepository.findAll();
+
+        if(session.getAttribute("role") == null){
+            session.setAttribute("message", "Tidak dapat diakses harap login!");
+            return new ModelAndView("redirect:/");
+        } else if (!session.getAttribute("role").equals("stTu")) {
+            return new ModelAndView("redirect:/forbidden");
+        }
+
         return new ModelAndView("check_document", Map.of(
                 "data", documents,
                 sessionUser(), true,
@@ -483,9 +524,17 @@ public class RouteController {
         ));
     }
 
-    @GetMapping(path = "/revisi-deocument")
-    public ModelAndView revisiDocument(){
+    @GetMapping(path = "/revisi-document")
+    public ModelAndView revisiDocument(HttpSession session){
         List<Document> documents = documentRepository.findAllByStatusLike("revisi");
+
+        if(session.getAttribute("role") == null){
+            session.setAttribute("message", "Tidak dapat diakses harap login!");
+            return new ModelAndView("redirect:/");
+        } else if (!session.getAttribute("role").equals("stTu")) {
+            return new ModelAndView("redirect:/forbidden");
+        }
+
         return new ModelAndView("revisi_document", Map.of(
                 "data", documents,
                 sessionUser(), true,
@@ -495,10 +544,16 @@ public class RouteController {
     }
 
     @GetMapping(path = "/approved")
-    public ModelAndView cekApprovedDocument(HttpServletRequest request){
+    public ModelAndView cekApprovedDocument(HttpServletRequest request, HttpSession session){
         String url = environment.getProperty("application.url");
         var getAll = documentRepository.findByStatusOrStatus("revisi", "pengajuan");
-//        System.out.println(getAll.get(1).getCreated_at());
+
+        if(session.getAttribute("role") == null){
+            session.setAttribute("message", "Tidak dapat diakses harap login!");
+            return new ModelAndView("redirect:/");
+        } else if (!session.getAttribute("role").equals("stTu")) {
+            return new ModelAndView("redirect:/forbidden");
+        }
 
         return new ModelAndView("approved_document", Map.of(
                 "url", url + "approved-document",
@@ -575,5 +630,12 @@ public class RouteController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .contentLength(file.length())
                 .body(resource);
+    }
+
+    @GetMapping(path = "/forbidden")
+    public ModelAndView forbidden() {
+        return new ModelAndView("forbidden", Map.of(
+                "login", isLoggin()
+        ));
     }
 }
