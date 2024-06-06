@@ -302,12 +302,26 @@
   justify-content: center;
   background: #ed1a1a;
   display: inline-block;
-  margin-top: 13%;
+  margin-top: 9%;
   /* position: relative; */
   /* display: flex; */
   flex-direction: column;
   align-items: center;
-  /* padding: 77px 0 38px 0; */
+  /*padding: 77px 0 38px 0;*/
+  width: 575px;
+  height: fit-content;
+  box-sizing: border-box;
+}
+.container-26-b {
+  justify-content: center;
+  background: #ed1a1a;
+  display: inline-block;
+  margin-top: 9%;
+  /* position: relative; */
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  padding: 77px 0 38px 0;
   width: 575px;
   height: fit-content;
   box-sizing: border-box;
@@ -482,6 +496,18 @@ img.union-2.tulisan {
   /* width: 132px; */
   box-sizing: border-box;
 }
+.container-27-a {
+  margin-bottom: 6%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 22px 5.4px 12px 30px;
+  /* padding: 2px 2px 2px 0; */
+  width: 100%;
+  /* width: 132px; */
+  box-sizing: border-box;
+}
 .simpan {
   border: none;
   outline: none;
@@ -499,7 +525,7 @@ img.union-2.tulisan {
     background: rgba(217, 217, 217, 0.67)
     font-family: "Stylish";
     font-weight: 400;
-    font-size: 29px;
+    font-size: 20px;
     padding: 5px 19.4px 4px 19.4px;
 }
 .container-25 {
@@ -529,7 +555,7 @@ img.union-2.tulisan {
 }
 .container-6-b {
   /*background: rgba(38, 235, 34, 0.6);*/
-  background: white;
+  /*background: white;*/
   position: relative;
   margin: 0 8px 138px 2px;
   display: flex;
