@@ -863,3 +863,253 @@ width: -webkit-fill-available;
   height: 90%;
   box-sizing: border-box;
 }
+.container-31 {
+  top: 25%;
+  background: #ffffff;
+  position: relative;
+  margin: 0 4px 47px 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0 47px 49.1px;
+  width: 800px;
+  box-sizing: border-box;
+}
+.container-24 {
+  margin: 0 0.2px 21px 0.2px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: flex-start;
+  width: 349.4px;
+  box-sizing: border-box;
+}
+.container-8-b {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+.detail-surat {
+  /*margin: 0 0 57px 353.1px;*/
+  display: inline-block;
+  align-self: center;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 32px;
+  color: #000000;
+}
+.nama-surat {
+  margin: 3px 16.5px 0 0;
+  display: inline-block;
+  width: 237.6px;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.ijazah {
+  margin-top: 3px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.container-39 {
+  margin: 0 0.3px 21px 0.3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: flex-start;
+  width: 484.2px;
+  box-sizing: border-box;
+}
+.nomor-surat {
+  margin: 5px 16.5px 1px 0;
+  display: inline-block;
+  width: 237.6px;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.container-4 {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+.10 {
+  margin: 0 8.8px 6px 0;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.dn-120001073 {
+  margin-top: 6px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.container-42 {
+  margin-bottom: 21px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: flex-start;
+  width: 444.7px;
+  box-sizing: border-box;
+}
+.disetujui-oleh {
+  margin: 3px 16.5px 1px 0;
+  display: inline-block;
+  width: 237.9px;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.container-19 {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+.11 {
+  margin: 0 8.7px 4px 0;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.juni-2023 {
+  margin-top: 4px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.container-2 {
+  margin: 0 0.4px;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+  width: fit-content;
+  box-sizing: border-box;
+}
+.disetujui-tanggal {
+  margin: 0 25px 3px 0;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.12 {
+  margin: 0 13.7px 3px 0;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.juni-202313 {
+  margin-top: 3px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 27px;
+  color: #000000;
+}
+.container-1-a {
+   background: #ffffff;
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   padding: 13px 0 16px 0;
+   width: 800px;
+   box-sizing: border-box;
+ }
+ .file-terlampir {
+   margin: 0 28.3px 11px 28.3px;
+   display: inline-block;
+   align-self: flex-start;
+   overflow-wrap: break-word;
+   font-family: "Inter";
+   font-weight: 700;
+   font-size: 29px;
+   color: #000000;
+ }
+ .line-32 {
+   background: #000000;
+   margin-bottom: 11px;
+   /*width: 992px;*/
+   height: 1px;
+ }
+ .dokumen-surat {
+   margin: 0 28.3px 3px 28.3px;
+   display: inline-block;
+   align-self: flex-start;
+   overflow-wrap: break-word;
+   font-family: "Inter";
+   font-weight: 700;
+   font-size: 25px;
+   color: #000000;
+ }
+ .container-29 {
+   background: #2397d8;
+   position: relative;
+   margin: 0 21px;
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-self: flex-start;
+   padding: 8px 8.3px 9px 7.3px;
+   box-sizing: border-box;
+ }
+ .download-dokumen {
+   overflow-wrap: break-word;
+   font-family: "Inter";
+   font-weight: 700;
+   font-size: 19px;
+   color: #000000;
+ }
+ .container-25-b {
+   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+   background: url("https://fn12.com/api/clusters/cluster-fn12-prod-asia-southeast1/projects/SSSc6Ak1ZvSf6aBiFfvfq2/assets/images/088a5f47cdf500d7868f11e9283959a15877d5ef?Expires=1711189256&KeyName=fn12-cdn&Signature=q2HxfdMSTktSvKl81ynsB4Rbixg=")
+     50% / cover no-repeat;
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   padding: 31px 8px 52px 11px;
+   width: fit-content;
+   box-sizing: border-box;
+ }
+ .container-21-a {
+   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+   background: url("images/sekolah.jpg")
+     50% / cover no-repeat;
+   background-size: cover;
+   text-align: center;
+   width: 100%;
+   height: 100%;
+   box-sizing: border-box;
+   align-items: center;
+   justify-items: center;
+   display: grid;
+ }

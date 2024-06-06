@@ -300,7 +300,7 @@ public class RouteController {
             status = (String) session.getAttribute("message");
         }
         session.removeAttribute("message");
-        return new ModelAndView("index", Map.of(
+        return new ModelAndView("document_verify2", Map.of(
 //                "urlPost", "http://localhost:8080/read-qrcode/read",
                 "message", status,
                 "login", isLoggin()
