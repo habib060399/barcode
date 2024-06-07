@@ -91,7 +91,7 @@
   overflow-wrap: break-word;
   font-family: "Stylish";
   font-weight: 400;
-  font-size: 32px;
+  font-size: 29px;
   color: #000000;
 }
 .menu-sidebar {
@@ -101,6 +101,8 @@
   align-self: flex-start;
   width: fit-content;
   box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
 }
 .ellipse {
   border-radius: 6px;
@@ -114,16 +116,17 @@
   overflow-wrap: break-word;
   font-family: "Stylish";
   font-weight: 400;
-  font-size: 32px;
+  font-size: 29px;
   color: #000000;
 }
 
 .txt-menu-sidebar {
+  text-decoration: none;
   overflow-wrap: break-word;
   font-family: "Stylish";
   font-weight: 400;
-  font-size: 29px;
-  text-decoration-line: underline;
+  font-size: 25px;
+  /*text-decoration-line: underline;*/
   color: #000000;
 }
 /* End Menu Sidebar */
@@ -216,7 +219,7 @@
   overflow-wrap: break-word;
   font-family: "Inter";
   font-weight: 700;
-  font-size: 27px;
+  font-size: 25px;
   color: #efda1f;
 }
 .line-14 {
@@ -231,8 +234,9 @@
   overflow-wrap: break-word;
   font-family: "Inter";
   font-weight: 700;
-  font-size: 27px;
+  font-size: 25px;
   color: #ffffff;
+  text-decoration: none;
 }
 .container-8 {
   background: rgba(217, 217, 217, 0.63);
@@ -386,7 +390,7 @@ img.union-2.tulisan {
   overflow-wrap: break-word;
   font-family: "Stylish";
   font-weight: 400;
-  font-size: 29px;
+  font-size: 26px;
   color: #ffffff;
 }
 .ellipse-11 {
@@ -402,13 +406,19 @@ img.union-2.tulisan {
   width: 427px;
   height: 56px;
 }
+.rectangle-34-a {
+  background: #ffffff;
+  margin-bottom: 25px;
+  /*width: 427px;
+  height: 56px;*/
+}
 .password {
   margin: 0 318.4px 6px 0;
   display: inline-block;
   overflow-wrap: break-word;
   font-family: "Stylish";
   font-weight: 400;
-  font-size: 29px;
+  font-size: 26px;
   color: #ffffff;
 }
 .rectangle-37 {
@@ -434,7 +444,7 @@ img.union-2.tulisan {
   overflow-wrap: break-word;
   font-family: "Stylish";
   font-weight: 400;
-  font-size: 29px;
+  font-size: 26px;
   color: #ffffff;
 }
 .nomor-dokumen {
@@ -443,7 +453,7 @@ img.union-2.tulisan {
   overflow-wrap: break-word;
   font-family: "Stylish";
   font-weight: 400;
-  font-size: 29px;
+  font-size: 26px;
   color: #ffffff;
 }
 .input-dokumen {
@@ -452,17 +462,16 @@ img.union-2.tulisan {
   overflow-wrap: break-word;
   font-family: "Stylish";
   font-weight: 400;
-  font-size: 29px;
+  font-size: 26px;
   color: #ffffff;
 }
 .file-pdf-dengan-maks-ukuran-2-mb {
-  /* margin: 0 57.6px 109px 0; */
   margin-left: -11%;
   display: inline-block;
   overflow-wrap: break-word;
   font-family: "Stylish";
   font-weight: 400;
-  font-size: 27px;
+  font-size: 24px;
   color: #d9d9d9;
 }
 .container-9 {
@@ -609,7 +618,7 @@ width: -webkit-fill-available;
 }
 .container-33 {
   margin: 0 37px 14px 37px;
-  display: flex;
+  /*display: flex;*/
   flex-direction: row;
   justify-content: space-between;
   align-self: flex-start;
@@ -701,7 +710,7 @@ width: -webkit-fill-available;
 }
 .container-8-approved {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  background: url("https://fn12.com/api/clusters/cluster-fn12-prod-asia-southeast1/projects/SSSc6Ak1ZvSf6aBiFfvfq2/assets/images/088a5f47cdf500d7868f11e9283959a15877d5ef?Expires=1711189067&KeyName=fn12-cdn&Signature=1A3_OSGD4mzRRrbpnH-8nkYb3aU=")
+  background: url("images/sekolah.jpg")
     50% / cover no-repeat;
   position: relative;
   display: flex;
@@ -714,11 +723,11 @@ width: -webkit-fill-available;
 }
 .container-4-approved {
   margin: 0 37px 7px 37px;
-  display: flex;
+  /*display: flex;*/
   flex-direction: row;
   justify-content: space-between;
   align-self: flex-start;
-  width: 322.2px;
+  /*width: 322.2px;*/
   box-sizing: border-box;
 }
 .upload-terakhir {
@@ -880,7 +889,6 @@ width: -webkit-fill-available;
   flex-direction: row;
   justify-content: space-between;
   align-self: flex-start;
-  width: 349.4px;
   box-sizing: border-box;
 }
 .container-8-b {
@@ -901,7 +909,6 @@ width: -webkit-fill-available;
 .nama-surat {
   margin: 3px 16.5px 0 0;
   display: inline-block;
-  width: 237.6px;
   overflow-wrap: break-word;
   font-family: "Inter";
   font-weight: 700;
@@ -929,7 +936,6 @@ width: -webkit-fill-available;
 .nomor-surat {
   margin: 5px 16.5px 1px 0;
   display: inline-block;
-  width: 237.6px;
   overflow-wrap: break-word;
   font-family: "Inter";
   font-weight: 700;
@@ -965,13 +971,11 @@ width: -webkit-fill-available;
   flex-direction: row;
   justify-content: space-between;
   align-self: flex-start;
-  width: 444.7px;
   box-sizing: border-box;
 }
 .disetujui-oleh {
   margin: 3px 16.5px 1px 0;
   display: inline-block;
-  width: 237.9px;
   overflow-wrap: break-word;
   font-family: "Inter";
   font-weight: 700;
