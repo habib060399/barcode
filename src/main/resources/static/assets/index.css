@@ -755,10 +755,18 @@ width: -webkit-fill-available;
   flex-direction: row;
   justify-content: space-between;
   align-self: flex-start;
-  width: 294.9px;
+  /*width: 294.9px;*/
   box-sizing: border-box;
 }
 .pengajuan {
+  margin-bottom: 5px;
+  display: inline-block;
+  overflow-wrap: break-word;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 20px;
+}
+.status-pengajuan {
   margin-bottom: 5px;
   display: inline-block;
   overflow-wrap: break-word;
@@ -772,7 +780,7 @@ width: -webkit-fill-available;
   position: relative;
   margin-bottom: 27px;
   padding: 8px 28.2px 13px 28.2px;
-  width: fit-content;
+  width: 100%;
   box-sizing: border-box;
 }
 .persetujuan {
