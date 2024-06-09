@@ -157,16 +157,15 @@ public class RouteController {
     public ModelAndView createQRCode(
             HttpServletRequest request,
             @RequestParam(name = "nama_doc") String nama_doc,
-            @RequestParam(name = "no_doc") String no_doc,
-            @RequestParam(name = "plain_txt") String plain_txt
+            @RequestParam(name = "no_doc") String no_doc
     ){
 
-        GenerateQRCode.GenerateQR(plain_txt, no_doc);
+        GenerateQRCode.GenerateQR(no_doc, no_doc);
 
         QrCodeModel qrCodeModel = new QrCodeModel();
         qrCodeModel.setNomor_dokumen(no_doc);
         qrCodeModel.setNama_dokumen(nama_doc);
-        qrCodeModel.setNama_qrcode(plain_txt);
+        qrCodeModel.setNama_qrcode(no_doc);
         qrCodeRepository.save(qrCodeModel);
 
         HttpSession session = request.getSession();
