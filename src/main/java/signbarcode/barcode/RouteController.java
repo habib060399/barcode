@@ -66,13 +66,13 @@ public class RouteController {
 
         if (role == null){
             map.put("name", "login");
-            map.put("url", "http://localhost:8080/login");
+            map.put("url", Url()+"login");
         } else if (role != null) {
             map.put("name", "logout");
-            map.put("url", "http://localhost:8080/logout");
+            map.put("url", Url()+"logout");
         } else {
             map.put("name", "logout");
-            map.put("url", "http://localhost:8080/logout");
+            map.put("url", Url()+"logout");
         }
 
         return map;
@@ -145,7 +145,7 @@ public class RouteController {
         }
 
         return new ModelAndView("cetak_QRCode", Map.of(
-                "urlPostCetakQR", "http://localhost:8080/cetak-QrCode/create",
+                "urlPostCetakQR", Url()+"cetak-QrCode/create",
                 "status", status,
                 sessionUser(), true,
                 "login", isLoggin()
@@ -346,7 +346,7 @@ public class RouteController {
         }
 
         return new ModelAndView("reader_qrcode", Map.of(
-                "urlPost", "http://localhost:8080/read-qrcode/read",
+                "urlPost", Url()+"read-qrcode/read",
                 "message", status,
                 "login", isLoggin()
         ));
