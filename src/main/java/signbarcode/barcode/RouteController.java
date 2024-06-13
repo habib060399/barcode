@@ -1,19 +1,19 @@
 package signbarcode.barcode;
 
 
-import com.aspose.pdf.internal.imaging.internal.bouncycastle.math.raw.Mod;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,12 +21,18 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
 public class RouteController {
+
+    @Autowired(required = true)
+    public FileStorageInterface fileStorageInterface;
 
     @Autowired(required = false)
     private DocumentRepository documentRepository;
@@ -158,18 +164,22 @@ public class RouteController {
             HttpServletRequest request,
             @RequestParam(name = "nama_doc") String nama_doc,
             @RequestParam(name = "no_doc") String no_doc
-    ){
+    ) throws IOException {
 
-        GenerateQRCode.GenerateQR(no_doc, no_doc);
+        boolean qrcode = GenerateQRCode.GenerateQR(no_doc, no_doc);
 
-        QrCodeModel qrCodeModel = new QrCodeModel();
-        qrCodeModel.setNomor_dokumen(no_doc);
-        qrCodeModel.setNama_dokumen(nama_doc);
-        qrCodeModel.setNama_qrcode(no_doc);
-        qrCodeRepository.save(qrCodeModel);
+        if (qrcode){
+            QrCodeModel qrCodeModel = new QrCodeModel();
+            qrCodeModel.setNomor_dokumen(no_doc);
+            qrCodeModel.setNama_dokumen(nama_doc);
+            qrCodeModel.setNama_qrcode(no_doc);
+            qrCodeRepository.save(qrCodeModel);
 
-        HttpSession session = request.getSession();
-        session.setAttribute("status", "QR Code Berhasil Ditambahkan");
+            HttpSession session = request.getSession();
+            session.setAttribute("status", "QR Code Berhasil Ditambahkan");
+            return new ModelAndView("redirect:/cetak-QrCode");
+        }
+
 
         return new ModelAndView("redirect:/cetak-QrCode");
     }
@@ -190,7 +200,8 @@ public class RouteController {
         return new ModelAndView("form_entry", Map.of(
                 "status", status,
                 sessionUser(), true,
-                "login", isLoggin()
+                "login", isLoggin(),
+                "urlPost", Url()+"form-entry/create"
         ));
     }
 
@@ -216,9 +227,10 @@ public class RouteController {
             System.out.println("file yang diupload tidak mendukung");
             session.setAttribute("status", "file yang diupload tidak didukung");
         } else {
-            Path path = Path.of("src/main/resources/static/assets/upload/" + file.getOriginalFilename());
-            file.transferTo(path);
+//            Path path = Path.of("src/main/resources/static/assets/upload/" + file.getOriginalFilename());
+//            file.transferTo(path);
 
+            String fileName = fileStorageInterface.storeFile(file, "upload/");
             session.setAttribute("status", "Data Berhasil ditambahkan");
 
             Document document = new Document();
@@ -258,6 +270,7 @@ public class RouteController {
         return new ModelAndView("sign_input", Map.of(
                 "data", getAll,
                 "urlDownload", Url() + "download-document-sign-input/",
+                "urlSigning", Url()+"sign-pdf/create?no_doc=",
                 "status", status,
                 sessionUser(), true,
                 "login", isLoggin()
@@ -271,7 +284,8 @@ public class RouteController {
         List<QrCodeModel> qrCodeModels = qrCodeRepository.getFileName(no_doc);
 
         try {
-            com.aspose.pdf.Document resourceDocument = new com.aspose.pdf.Document("src/main/resources/static/assets/signing/" + documents.getFirst().getOriginal_name());
+//            ClassPathResource classPathResource = new ClassPathResource("static/assets/signing/");
+//            com.aspose.pdf.Document resourceDocument = new com.aspose.pdf.Document("src/main/resources/static/assets/signing/" + documents.getFirst().getOriginal_name());
             if(qrCodeModels.isEmpty()){
                 System.out.println("belum membuat qrcode");
                 HttpSession session = request.getSession();
@@ -283,12 +297,13 @@ public class RouteController {
                 session.setAttribute("error", "berhasil signing dokumen");
             }
         }catch (Exception e){
+            e.printStackTrace();
             System.out.println("file belum ditanda tangani oleh kepala sekolah");
             HttpSession session = request.getSession();
             session.setAttribute("error", "file belum ditanda tangani oleh kepala sekolah");
         }
 
-        System.out.println(documents.getFirst().getOriginal_name());
+//        System.out.println(documents.getFirst().getOriginal_name());
         return new ModelAndView("redirect:/sign-pdf");
     }
 
@@ -316,8 +331,9 @@ public class RouteController {
         Map<EncodeHintType, ErrorCorrectionLevel> hintMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
         hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
         String fileName = file.getOriginalFilename();
-        Path path = Path.of("src/main/resources/static/assets/tmp/" + file.getOriginalFilename());
-        file.transferTo(path);
+        String filename = fileStorageInterface.storeFile(file, "tmp/");
+//        Path path = Path.of("src/main/resources/static/assets/tmp/" + file.getOriginalFilename());
+//        file.transferTo(path);
         BarcodeRead read = new  BarcodeRead(fileName.replace(".pdf",""));
         System.out.println(read.resulDecodeQR);
         List<Document> documents = documentRepository.nomor_dokumen(read.resulDecodeQR);
@@ -495,8 +511,9 @@ public class RouteController {
         } else if (!Objects.equals(file.getContentType(), "application/pdf")){
             session.setAttribute("status", "file yang diupload tidak didukung");
         }else {
-            Path path = Path.of("src/main/resources/static/assets/signing/" + file.getOriginalFilename());
-            file.transferTo(path);
+//            Path path = Path.of("src/main/resources/static/assets/signing/" + file.getOriginalFilename());
+//            file.transferTo(path);
+            String fileName = fileStorageInterface.storeFile(file, "signing/");
             document.setOriginal_name(file.getOriginalFilename());
             documentRepository.save(document);
         }
@@ -618,7 +635,9 @@ public class RouteController {
 
     @GetMapping(path = "/download-document-sign-input/{filename}")
     public ResponseEntity<InputStreamResource> fileDownloadDocumentSignInput(@PathVariable String filename) throws IOException {
-        File file = new File("src/main/resources/static/assets/signpdf/"+filename);
+        ClassPathResource classPathResource = new ClassPathResource("static/assets/signpdf/"+filename);
+        File file = classPathResource.getFile();
+//        File file = new File("src/main/resources/static/assets/signpdf/"+filename);
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
         System.out.println(filename);
         HttpHeaders headers = new HttpHeaders();

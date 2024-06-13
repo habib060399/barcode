@@ -6,18 +6,25 @@ import com.aspose.pdf.operators.ConcatenateMatrix;
 import com.aspose.pdf.operators.Do;
 import com.aspose.pdf.operators.GRestore;
 import com.aspose.pdf.operators.GSave;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.util.Locale;
 
 public class PdfAddImage {
 
-    private static String pdfDir = "src/main/resources/static/assets/signing/";
-    private static String signPdfDir = "src/main/resources/static/assets/signpdf/";
-    private static String imageDir = "src/main/resources/static/assets/barcode/";
+//    private static String pdfDir = "src/main/resources/static/assets/signing/";
+//    private static String signPdfDir = "src/main/resources/static/assets/signpdf/";
+//    private static String imageDir = "src/main/resources/static/assets/barcode/";
 
     public static void AddImageToPdf(String fileNamePdf, String fileNameQr) throws IOException {
         com.aspose.pdf.LocaleOptions.setLocale(new Locale("en", "US"));
+        ClassPathResource classPathResourcePDF = new ClassPathResource("static/assets/signing/");
+        ClassPathResource classPathResourceSignPdf = new ClassPathResource("static/assets/signpdf/");
+        ClassPathResource classPathResourceImageDir = new ClassPathResource("static/assets/barcode/");
+        String pdfDir = String.valueOf(classPathResourcePDF.getFile())+"/";
+        String signPdfDir = String.valueOf(classPathResourceSignPdf.getFile()+"/");
+        String imageDir = String.valueOf(classPathResourceImageDir.getFile()+"/");
 
 
         try {
@@ -29,7 +36,7 @@ public class PdfAddImage {
 
             Page page = document.getPages().get_Item(1);
 
-            java.io.FileInputStream imageStream = new java.io.FileInputStream(new java.io.File(imageDir + fileNameQr +".png"));
+            java.io.FileInputStream imageStream = new java.io.FileInputStream(imageDir + fileNameQr +".png");
 
             page.getResources().getImages().add(imageStream);
 
@@ -45,12 +52,12 @@ public class PdfAddImage {
             page.getContents().add(new Do(xImage.getName()));
 
             page.getContents().add(new GRestore());
-
+            System.out.println(signPdfDir+fileNamePdf);
             document.save(signPdfDir+fileNamePdf);
 
             imageStream.close();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }
